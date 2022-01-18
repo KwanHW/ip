@@ -135,7 +135,7 @@ public class Duke {
                 throw new DukeException(errorMsg);
             }
 
-
+//            At this point it can only be a deadline or an event
             if (command.equals(MAKE_DEADLINE)) {
                 return new Deadline(taskParams[0], taskParams[1]);
             } else {
