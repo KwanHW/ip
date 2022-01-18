@@ -1,4 +1,5 @@
 list
+delete 1
 todo read book
 mark 1
 deadline return book /by June 6th
@@ -9,6 +10,16 @@ todo borrow book
 list
 deadline return book /by Sunday
 event project meeting /at Mon 2-4pm
+list
+delete 7
+delete 6
+delete 0
+delete -1
+delete 27
+delete 3
+list
+delete abcde
+delete
 deadline
 todo
 event

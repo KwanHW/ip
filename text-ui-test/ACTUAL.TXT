@@ -13,6 +13,9 @@ ____________________________________________________________
 Here are the tasks in your list:
 ____________________________________________________________
 ____________________________________________________________
+☹ OOPS!!! Please make sure you have something in the list before performing this operation!
+____________________________________________________________
+____________________________________________________________
 Got it. I've added this task:
 	 [T][ ] read book
  Now you have 1 tasks in the list
@@ -64,6 +67,53 @@ Got it. I've added this task:
  Now you have 7 tasks in the list
 ____________________________________________________________
 ____________________________________________________________
+Here are the tasks in your list:
+1.[T][X] read book
+2.[D][ ] return book (by: June 6th)
+3.[E][ ] project meeting (at: Aug 6th 2-4pm)
+4.[T][X] join sports club
+5.[T][ ] borrow book
+6.[D][ ] return book (by: Sunday)
+7.[E][ ] project meeting (at: Mon 2-4pm)
+____________________________________________________________
+____________________________________________________________
+Noted. I've removed this task:
+	 [E][ ] project meeting (at: Mon 2-4pm)
+Now you have 6 tasks in the list
+____________________________________________________________
+____________________________________________________________
+Noted. I've removed this task:
+	 [D][ ] return book (by: Sunday)
+Now you have 5 tasks in the list
+____________________________________________________________
+____________________________________________________________
+☹ OOPS!!! I think you may have given me something that's out of range.
+____________________________________________________________
+____________________________________________________________
+☹ OOPS!!! I think you may have given me something that's out of range.
+____________________________________________________________
+____________________________________________________________
+☹ OOPS!!! I think you may have given me something that's out of range.
+____________________________________________________________
+____________________________________________________________
+Noted. I've removed this task:
+	 [E][ ] project meeting (at: Aug 6th 2-4pm)
+Now you have 4 tasks in the list
+____________________________________________________________
+____________________________________________________________
+Here are the tasks in your list:
+1.[T][X] read book
+2.[D][ ] return book (by: June 6th)
+3.[T][X] join sports club
+4.[T][ ] borrow book
+____________________________________________________________
+____________________________________________________________
+☹ OOPS!!! I don't think you gave me a valid number.
+____________________________________________________________
+____________________________________________________________
+☹ OOPS!!! Please make sure your command follows this format: delete <number>
+____________________________________________________________
+____________________________________________________________
 ☹ OOPS!!! Make sure your command follows this format: deadline <task> /by <time>
 ____________________________________________________________
 ____________________________________________________________
@@ -79,19 +129,19 @@ ____________________________________________________________
 ☹ OOPS!!! Make sure your command follows this format: deadline <task> /by <time>
 ____________________________________________________________
 ____________________________________________________________
-☹ OOPS!!! I don't think you gave me a valid number.
-____________________________________________________________
-____________________________________________________________
-☹ OOPS!!! I don't think you gave me a valid number.
+☹ OOPS!!! I think you may have given me something that's out of range.
 ____________________________________________________________
 ____________________________________________________________
 ☹ OOPS!!! I think you may have given me something that's out of range.
 ____________________________________________________________
 ____________________________________________________________
-☹ OOPS!!! I don't think you gave me a valid number.
+☹ OOPS!!! I think you may have given me something that's out of range.
 ____________________________________________________________
 ____________________________________________________________
-☹ OOPS!!! I don't think you gave me a valid number.
+☹ OOPS!!! I think you may have given me something that's out of range.
+____________________________________________________________
+____________________________________________________________
+☹ OOPS!!! I think you may have given me something that's out of range.
 ____________________________________________________________
 ____________________________________________________________
 ☹ OOPS!!! I think you may have given me something that's out of range.

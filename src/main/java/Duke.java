@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Duke {
@@ -5,12 +6,12 @@ public class Duke {
     public static final String LIST = "list";
     public static final String MARK = "mark";
     public static final String UNMARK = "unmark";
+    public static final String DELETE = "delete";
     public static final String MAKE_TODO = "todo";
     public static final String MAKE_EVENT = "event";
     public static final String MAKE_DEADLINE = "deadline";
 
-    private static Task[] tasks;
-    private static int index;
+    private static TaskStore tasks;
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
@@ -39,15 +40,14 @@ public class Duke {
     }
 
     private static void init() {
-        index = 0;
-        tasks = new Task[100];
+        tasks = new TaskStore();
     }
 
     public static void processInput(String inputTxt) {
         String[] split = inputTxt.split(" ");
         String command = split[0].toLowerCase();
         String commandArgs = inputTxt.substring(command.length()).trim();
-        int toDelete;
+        int toMark;
         Task task;
         try {
             switch (command) {
@@ -56,46 +56,35 @@ public class Duke {
                     break;
 
                 case LIST:
-                    printMessage(listTasks(tasks, index));
+                    printMessage(tasks.toString());
                     break;
 
                 case MARK:
-                    if (index == 0) {
-                        throw new DukeException("☹ OOPS!!! Please make sure you have something in the list before marking a task as done!");
-                    }
-
-                    if (split.length == 1) {
-                        throw new DukeException("☹ OOPS!!! Please make sure you did specify which item I should be marking as done.");
-                    }
-                    toDelete = Integer.valueOf(commandArgs) - 1;
-                    task = tasks[toDelete];
+                    task = validateMutation(command,commandArgs);
                     task.markAsDone();
                     printMessage( String.format("Nice! I marked this task as done:\n %s", task));
                     break;
 
                 case UNMARK:
-                    if (index == 0) {
-                        throw new DukeException("☹ OOPS!!! Please make sure you have something in the list before marking a task as undone!");
-                    }
-
-                    if (split.length == 1) {
-                        throw new DukeException("☹ OOPS!!! Please make sure you did specify which item I should be marking as undone.");
-                    }
-                    toDelete = Integer.valueOf(commandArgs) - 1;
-                    task = tasks[toDelete];
+                    task = validateMutation(command,commandArgs);
                     task.markAsUndone();
                     printMessage( String.format("OK, I've marked this task as not done yet:\n %s", task));
+                    break;
+
+                case DELETE:
+                    task = validateMutation(command,commandArgs);
+                    tasks.removeTask(task);
+                    printMessage( String.format("Noted. I've removed this task:\n\t %s\nNow you have %d tasks in the list",
+                            task, tasks.getSize()));
                     break;
 
                 case MAKE_DEADLINE:
                 case MAKE_EVENT:
                 case MAKE_TODO:
-                    task = processTask(command, commandArgs);
-                    tasks[index] = task;
-                    index++;
+                    task = createTask(command, commandArgs);
+                    tasks.addTask(task);
                     printMessage(String.format("Got it. I've added this task:\n\t %s\n Now you have %d tasks in the list",
-                            task,
-                            index));
+                            task, tasks.getSize()));
                     break;
 
                 default:
@@ -103,23 +92,26 @@ public class Duke {
             }
         } catch (DukeException e) {
             printMessage(e.getMessage());
-        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+        } catch (NumberFormatException e) {
             printMessage("☹ OOPS!!! I don't think you gave me a valid number.");
-        } catch (NullPointerException e) {
+        } catch (IndexOutOfBoundsException e) {
             printMessage("☹ OOPS!!! I think you may have given me something that's out of range.");
         }
     }
 
-    public static String listTasks(Task[] tasks, int toIndex) {
-        StringBuilder sb = new StringBuilder("Here are the tasks in your list:");
-        for (int i = 0; i < toIndex; i++) {
-            sb.append(String.format("\n%d.%s", i + 1, tasks[i]));
+    public static Task validateMutation(String command,String commandArgs) throws DukeException, NumberFormatException, IndexOutOfBoundsException{
+        if (tasks.isEmpty()) {
+            throw new DukeException("☹ OOPS!!! Please make sure you have something in the list before performing this operation!");
         }
 
-        return sb.toString();
+        if (commandArgs.isEmpty()) {
+            throw new DukeException(String.format("☹ OOPS!!! Please make sure your command follows this format: %s <number>",command));
+        }
+        int toMark = Integer.parseInt(commandArgs) - 1;
+        return tasks.getTask(toMark);
     }
 
-    public static Task processTask(String command, String args) throws DukeException {
+    public static Task createTask(String command, String args) throws DukeException {
         if (command.equals(MAKE_TODO)) {
             if (args.equals("")) {
                 throw new DukeException("☹ OOPS!!! Make sure the task is not empty!");
