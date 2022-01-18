@@ -1,3 +1,4 @@
+list
 todo read book
 mark 1
 deadline return book /by June 6th
@@ -8,4 +9,15 @@ todo borrow book
 list
 deadline return book /by Sunday
 event project meeting /at Mon 2-4pm
+deadline
+todo
+event
+deadline Submit report /by
+deadline /by Sunday
+mark -1
+mark 0
+mark 16
+unmark -1
+unmark 0
+unmark 27
 bye
