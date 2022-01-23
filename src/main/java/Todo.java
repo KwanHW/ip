@@ -1,10 +1,9 @@
 public class Todo extends Task {
     public Todo(String description) {
-        super(description);
+        this(description,false);
     }
 
-    @Override
-    public String toString() {
-        return String.format("[T]%s",super.toString());
+    public Todo(String description, boolean isDone) {
+        super(TaskType.TODO,isDone,description);
     }
 }

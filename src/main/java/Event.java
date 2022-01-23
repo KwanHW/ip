@@ -2,12 +2,16 @@ public class Event extends Task{
     protected String at;
 
     public Event(String description, String at) {
-        super(description);
+        this(description,false, at);
+    }
+
+    public Event(String description,boolean isDone, String at ) {
+        super(TaskType.EVENT,isDone,description);
         this.at = at;
     }
 
     @Override
     public String toString() {
-        return String.format("[E]%s (at: %s)",super.toString(),this.at);
+        return String.format("%s (at: %s)",super.toString(),this.at);
     }
 }
