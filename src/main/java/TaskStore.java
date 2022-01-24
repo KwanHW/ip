@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class TaskStore {
@@ -24,6 +25,12 @@ public class TaskStore {
         return this.tasks;
     }
 
+    public Task addTask(String command, String args) throws DukeException, DateTimeParseException{
+        Task t = this.createTask(command,args);
+        this.tasks.add(t);
+        return t;
+    }
+
     public void addTask(Task t) {
         this.tasks.add(t);
     }
@@ -32,21 +39,55 @@ public class TaskStore {
         this.tasks.remove(t);
     }
 
-    public ArrayList<Task> getTasksOn(LocalDate date) {
-        ArrayList<Task> tasksOnDate = new ArrayList<>();
+    public String getTasksOn(LocalDate date) {
+        StringBuilder sb = new StringBuilder();
         for (Task t : this.tasks) {
-//            Finds tasks that have a time
+//            Find all timeable tasks
             if (t instanceof Timeable) {
                 Timeable timeableTask = (Timeable) t;
 
 //                Checks if the date is the same as input
                 if (timeableTask.isSameDate(date)) {
-                    tasksOnDate.add(t);
+                    sb.append(t).append("\n");
                 }
             }
         }
 
-        return tasksOnDate;
+        String tasksToPrint = sb.toString();
+        String dateString = date.format(Timeable.getPrintableFormat());
+
+        if (tasksToPrint.isEmpty()) {
+            return String.format("You don't have any tasks on %s",dateString);
+        } else {
+            return String.format("Here are your tasks on%s\n%s",dateString,tasksToPrint);
+        }
+    }
+
+    public Task createTask(String command, String args) throws DukeException, DateTimeParseException {
+        if (command.equals(Parser.MAKE_TODO)) {
+            if (args.equals("")) {
+                throw new DukeException("☹ OOPS!!! Make sure the task is not empty!");
+            }
+            return new Todo(args);
+        } else {
+            String delimiter = Parser.getDelimiter(command);
+            String[] taskParams = args.split(delimiter);
+
+//            Checks for syntax correctness
+            if (taskParams.length == 1) {
+                String errorMsg = String.format("☹ OOPS!!! Make sure your command follows this format: %s <task>%s<time>",command,delimiter);
+                throw new DukeException(errorMsg);
+            }
+
+            LocalDate date = Timeable.of(taskParams[1]);
+
+//            At this point it can only be a deadline or an event
+            if (command.equals(Parser.MAKE_DEADLINE)) {
+                return new Deadline(taskParams[0], date);
+            } else {
+                return new Event(taskParams[0], date);
+            }
+        }
     }
 
     @Override

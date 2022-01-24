@@ -1,42 +1,38 @@
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Duke {
-    public static final String BYE = "bye";
-    public static final String LIST = "list";
-    public static final String MARK = "mark";
-    public static final String UNMARK = "unmark";
-    public static final String DELETE = "delete";
-    public static final String MAKE_TODO = "todo";
-    public static final String MAKE_EVENT = "event";
-    public static final String MAKE_DEADLINE = "deadline";
-    public static final String TASKS_ON = "taskon";
-
-    private static TaskStore tasks;
-    private static Storage storage;
+    private  TaskStore tasks;
+    private  Storage storage;
+    private  Ui ui;
 
     public static void main(String[] args) {
+        new Duke().run();
+    }
+
+    private Duke() {
+        this.ui = new Ui();
+        this.storage = new Storage();
+        this.storage.makeDirectory();
+        try {
+            this.tasks = storage.importTasks();
+        } catch (IOException e) {
+            ui.printError("Unable to load file.");
+        } catch (DateTimeParseException e) {
+            ui.printError("Sorry I don't understand that format. Make sure its in yyyy-mm-dd.");
+        }
+    }
+
+    public void run() {
+        Parser parser = new Parser(ui,storage);
         Scanner input = new Scanner(System.in);
-        init();
 
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println("Hello from\n" + logo);
-
-        System.out.println("____________________________________________________________");
-        System.out.println("Hello! I'm Duke\nWhat can I do for you?");
-        System.out.println("____________________________________________________________");
-
+        ui.greet();
         String inputTxt;
         while (input.hasNext()) {
             inputTxt = input.nextLine();
-            processInput(inputTxt);
+            parser.processInput(inputTxt,tasks);
 
             if (inputTxt.startsWith("bye")) {
                 break;
@@ -44,156 +40,4 @@ public class Duke {
         }
     }
 
-    private static void init() {
-        storage = new Storage();
-        storage.makeDirectory();
-        try {
-            tasks = storage.importTasks();
-        } catch (IOException e) {
-//            System.out.println("Unable to load file.");
-            printMessage("Unable to load file.");
-        } catch (DateTimeParseException e) {
-//            System.out.println("☹ ERROR!!! Sorry I don't understand that format. Make sure its in yyyy-mm-dd.");
-            printMessage("☹ ERROR!!! Sorry I don't understand that format. Make sure its in yyyy-mm-dd.");
-        }
-    }
-
-    public static void processInput(String inputTxt) {
-        String[] split = inputTxt.split(" ");
-        String command = split[0].toLowerCase();
-        String commandArgs = inputTxt.substring(command.length()).trim();
-        Task task;
-        try {
-            switch (command) {
-                case BYE:
-                    printMessage("Bye. Hope to see you again soon!");
-                    break;
-
-                case LIST:
-                    printMessage(tasks.toString());
-                    break;
-
-                case MARK:
-                    task = validateMutation(command,commandArgs);
-                    task.markAsDone();
-                    printMessage( String.format("Nice! I marked this task as done:\n %s", task));
-                    break;
-
-                case UNMARK:
-                    task = validateMutation(command,commandArgs);
-                    task.markAsUndone();
-                    printMessage( String.format("OK, I've marked this task as not done yet:\n %s", task));
-                    break;
-
-                case DELETE:
-                    task = validateMutation(command,commandArgs);
-                    tasks.removeTask(task);
-                    printMessage( String.format("Noted. I've removed this task:\n\t %s\nNow you have %d tasks in the list",
-                            task, tasks.getSize()));
-                    break;
-
-                case MAKE_DEADLINE:
-                case MAKE_EVENT:
-                case MAKE_TODO:
-                    task = createTask(command, commandArgs);
-                    tasks.addTask(task);
-                    printMessage(String.format("Got it. I've added this task:\n\t %s\n Now you have %d tasks in the list",
-                            task, tasks.getSize()));
-                    break;
-
-                case TASKS_ON:
-                    LocalDate date = LocalDate.parse(commandArgs);
-                    String dateString = date.format(Timeable.getPrintableFormat());
-                    ArrayList<Task> tasksOn = tasks.getTasksOn(date);
-                    if (tasksOn.isEmpty())  {
-                        printMessage(String.format("You don't have any tasks on %s",dateString));
-                    } else {
-                        String header = String.format("Here are your tasks on %s\n",dateString);
-                        StringBuilder sb = new StringBuilder(header);
-                        for (Task t:tasksOn) {
-                            sb.append(t.toString());
-                        }
-
-                        printMessage(sb.toString());
-                    }
-                    break;
-
-                default:
-                    throw new DukeException("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
-            }
-
-//            Write the new changes to file (commands that are not bye, list and taskon)
-            if (!(command.equals(BYE) || command.equals(LIST) || command.equals(TASKS_ON))){
-                storage.writeToFile(tasks);
-            }
-
-        } catch (DukeException e) {
-            printMessage(e.getMessage());
-        } catch (NumberFormatException e) {
-            printMessage("☹ OOPS!!! I don't think you gave me a valid number.");
-        } catch (IndexOutOfBoundsException e) {
-            printMessage("☹ OOPS!!! I think you may have given me something that's out of range.");
-        } catch (IOException e) {
-            printMessage("☹ ERROR!!! Unable to write to file");
-        } catch (DateTimeParseException e) {
-            printMessage("☹ ERROR!!! Sorry I don't understand that format. Make sure its in yyyy-mm-dd.");
-        }
-    }
-
-    public static Task validateMutation(String command,String commandArgs) throws DukeException, NumberFormatException, IndexOutOfBoundsException{
-        if (tasks.isEmpty()) {
-            throw new DukeException("☹ OOPS!!! Please make sure you have something in the list before performing this operation!");
-        }
-
-        if (commandArgs.isEmpty()) {
-            throw new DukeException(String.format("☹ OOPS!!! Please make sure your command follows this format: %s <number>",command));
-        }
-
-        int toMark = Integer.parseInt(commandArgs) - 1;
-        return tasks.getTask(toMark);
-    }
-
-    public static Task createTask(String command, String args) throws DukeException, DateTimeParseException {
-        if (command.equals(MAKE_TODO)) {
-            if (args.equals("")) {
-                throw new DukeException("☹ OOPS!!! Make sure the task is not empty!");
-            }
-            return new Todo(args);
-        } else {
-            String delimiter = getDelimiter(command);
-            String[] taskParams = args.split(delimiter);
-
-//            Checks for syntax correctness
-            if (taskParams.length == 1) {
-                String errorMsg = String.format("☹ OOPS!!! Make sure your command follows this format: %s <task>%s<time>",command,delimiter);
-                throw new DukeException(errorMsg);
-            }
-
-            LocalDate date = Timeable.of(taskParams[1]);
-
-//            At this point it can only be a deadline or an event
-            if (command.equals(MAKE_DEADLINE)) {
-                return new Deadline(taskParams[0], date);
-            } else {
-                return new Event(taskParams[0], date);
-            }
-        }
-    }
-
-    public static String getDelimiter(String action) throws DukeException {
-        switch (action) {
-            case MAKE_DEADLINE:
-                return " /by ";
-            case MAKE_EVENT:
-                return " /at ";
-            default:
-                throw new DukeException("☹ OOPS!!! I'm sorry, but I don't think there's a delimiter for that..");
-        }
-    }
-
-    public static void printMessage(String inputTxt) {
-        System.out.println("____________________________________________________________");
-        System.out.println(inputTxt);
-        System.out.println("____________________________________________________________");
-    }
 }
