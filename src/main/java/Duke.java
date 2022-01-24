@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Duke {
@@ -12,6 +13,7 @@ public class Duke {
     public static final String MAKE_TODO = "todo";
     public static final String MAKE_EVENT = "event";
     public static final String MAKE_DEADLINE = "deadline";
+    public static final String TASKS_ON = "taskon";
 
     private static TaskStore tasks;
     private static Storage storage;
@@ -99,12 +101,29 @@ public class Duke {
                             task, tasks.getSize()));
                     break;
 
+                case TASKS_ON:
+                    LocalDate date = LocalDate.parse(commandArgs);
+                    String dateString = date.format(Timeable.getPrintableFormat());
+                    ArrayList<Task> tasksOn = tasks.getTasksOn(date);
+                    if (tasksOn.isEmpty())  {
+                        printMessage(String.format("You don't have any tasks on %s",dateString));
+                    } else {
+                        String header = String.format("Here are your tasks on %s\n",dateString);
+                        StringBuilder sb = new StringBuilder(header);
+                        for (Task t:tasksOn) {
+                            sb.append(t.toString());
+                        }
+
+                        printMessage(sb.toString());
+                    }
+                    break;
+
                 default:
                     throw new DukeException("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
             }
 
-//            Write the new changes to file (commands that are not bye and list)
-            if (!(command.equals(BYE) || command.equals(LIST))){
+//            Write the new changes to file (commands that are not bye, list and taskon)
+            if (!(command.equals(BYE) || command.equals(LIST) || command.equals(TASKS_ON))){
                 storage.writeToFile(tasks);
             }
 

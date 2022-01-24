@@ -29,6 +29,11 @@ public class Deadline extends Task implements Timeable{
     }
 
     @Override
+    public boolean isSameDate(LocalDate date) {
+        return this.by.equals(date);
+    }
+
+    @Override
     public String toString() {
         return String.format("%s (by: %s)",super.toString(),this.getDateString(Timeable.getPrintableFormat()));
     }

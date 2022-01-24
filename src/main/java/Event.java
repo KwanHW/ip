@@ -29,6 +29,11 @@ public class Event extends Task implements Timeable{
     }
 
     @Override
+    public boolean isSameDate(LocalDate date) {
+        return this.at.equals(date);
+    }
+
+    @Override
     public String toString() {
         return String.format("%s (at: %s)",super.toString(),this.getDateString(Timeable.getPrintableFormat()));
     }

@@ -7,6 +7,8 @@ public interface Timeable {
 
     public String getDateString(DateTimeFormatter dateTimeFormat);
 
+    public boolean isSameDate(LocalDate date);
+
     public static LocalDate of(String date) throws DateTimeParseException {
         return LocalDate.parse(date);
     }

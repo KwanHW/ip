@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class TaskStore {
@@ -29,6 +30,23 @@ public class TaskStore {
 
     public void removeTask(Task t)  {
         this.tasks.remove(t);
+    }
+
+    public ArrayList<Task> getTasksOn(LocalDate date) {
+        ArrayList<Task> tasksOnDate = new ArrayList<>();
+        for (Task t : this.tasks) {
+//            Finds tasks that have a time
+            if (t instanceof Timeable) {
+                Timeable timeableTask = (Timeable) t;
+
+//                Checks if the date is the same as input
+                if (timeableTask.isSameDate(date)) {
+                    tasksOnDate.add(t);
+                }
+            }
+        }
+
+        return tasksOnDate;
     }
 
     @Override
