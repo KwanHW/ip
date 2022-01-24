@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 
 public class Parser {
     public static final String BYE = "bye";
@@ -52,16 +51,14 @@ public class Parser {
                 case DELETE:
                     task = validateMutation(command,commandArgs,tasks);
                     tasks.removeTask(task);
-                    this.ui.printMessage(String.format("Noted. I've removed this task:\n\t %s\nNow you have %d tasks in the list",
-                            task, tasks.getSize()));
+                    this.ui.printTaskDelete(task,tasks);
                     break;
 
                 case MAKE_DEADLINE:
                 case MAKE_EVENT:
                 case MAKE_TODO:
                     task = tasks.addTask(command,commandArgs);
-                    this.ui.printMessage(String.format("Got it. I've added this task:\n\t %s\n Now you have %d tasks in the list",
-                            task, tasks.getSize()));
+                    this.ui.printTaskAdd(task,tasks);
                     break;
 
                 case TASKS_ON:

@@ -66,7 +66,7 @@ public class TaskStore {
     public Task createTask(String command, String args) throws DukeException, DateTimeParseException {
         if (command.equals(Parser.MAKE_TODO)) {
             if (args.equals("")) {
-                throw new DukeException("☹ OOPS!!! Make sure the task is not empty!");
+                throw new DukeException("Make sure the task is not empty!");
             }
             return new Todo(args);
         } else {
@@ -75,7 +75,7 @@ public class TaskStore {
 
 //            Checks for syntax correctness
             if (taskParams.length == 1) {
-                String errorMsg = String.format("☹ OOPS!!! Make sure your command follows this format: %s <task>%s<time>",command,delimiter);
+                String errorMsg = String.format("Make sure your command follows this format: %s <task>%s<time>",command,delimiter);
                 throw new DukeException(errorMsg);
             }
 
