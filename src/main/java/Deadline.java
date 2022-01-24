@@ -1,22 +1,35 @@
-public class Deadline extends Task {
-    protected String by;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-    public Deadline(String description, String by) {
+public class Deadline extends Task implements Timeable{
+    protected LocalDate by;
+
+    public Deadline(String description, LocalDate by) {
         this(description,false,by);
     }
 
-    public Deadline(String description, boolean isDone, String by) {
+    public Deadline(String description, boolean isDone, LocalDate by) {
         super(TaskType.DEADLINE,isDone, description);
         this.by = by;
     }
 
     @Override
     public String writeToFile() {
-        return super.writeToFile() + " | " + this.by;
+        return super.writeToFile() + " | " + this.getDateString(Timeable.getWritableFormat());
+    }
+
+    @Override
+    public LocalDate getDate() {
+        return this.by;
+    }
+
+    @Override
+    public String getDateString(DateTimeFormatter dateTimeFormat) {
+        return this.by.format(dateTimeFormat);
     }
 
     @Override
     public String toString() {
-        return String.format("%s (by: %s)",super.toString(),this.by);
+        return String.format("%s (by: %s)",super.toString(),this.getDateString(Timeable.getPrintableFormat()));
     }
 }

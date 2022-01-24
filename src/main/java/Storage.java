@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class Storage {
@@ -23,7 +24,7 @@ public class Storage {
         }
     }
 
-    public void writeToFile(TaskStore ts) throws IOException{
+    public void writeToFile(TaskStore ts) throws IOException {
             FileWriter fw = new FileWriter(PATH);
             for (Task task : ts.getTaskList()) {
                 fw.write(task.writeToFile() + "\n");
@@ -31,7 +32,7 @@ public class Storage {
             fw.close();
     }
 
-    public TaskStore importTasks() throws IOException {
+    public TaskStore importTasks() throws IOException, DateTimeParseException {
         TaskStore tasks = new TaskStore();
 
         try {
@@ -45,10 +46,11 @@ public class Storage {
                         tasks.addTask(new Todo(line[2],isDone));
                         break;
                     case EVENT:
-                        tasks.addTask(new Event(line[2],isDone,line[3]));
+                        tasks.addTask(new Event(line[2],isDone,Timeable.of(line[3])));
                         break;
                     case DEADLINE:
-                        tasks.addTask(new Deadline(line[2],isDone,line[3]));
+                        tasks.addTask(new Deadline(line[2],isDone,Timeable.of(line[3])));
+                        break;
                 }
             }
 
