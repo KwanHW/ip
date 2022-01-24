@@ -9,6 +9,16 @@ public enum TaskType {
         this.type = type;
     }
 
+    public static TaskType fromString(String from) {
+        for (TaskType tt : TaskType.values())      {
+            if (tt.toString().equals(from)) {
+                return tt;
+            }
+        }
+
+        throw new IllegalArgumentException("ERROR!!! No such TaskType exists");
+    }
+
     @Override
     public String toString() {
         return this.type;

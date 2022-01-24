@@ -11,6 +11,11 @@ public class Deadline extends Task {
     }
 
     @Override
+    public String writeToFile() {
+        return super.writeToFile() + " | " + this.by;
+    }
+
+    @Override
     public String toString() {
         return String.format("%s (by: %s)",super.toString(),this.by);
     }

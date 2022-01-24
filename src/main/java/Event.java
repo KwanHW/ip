@@ -11,6 +11,11 @@ public class Event extends Task{
     }
 
     @Override
+    public String writeToFile() {
+        return super.writeToFile() + " | " + this.at;
+    }
+
+    @Override
     public String toString() {
         return String.format("%s (at: %s)",super.toString(),this.at);
     }

@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Duke {
@@ -12,6 +12,7 @@ public class Duke {
     public static final String MAKE_DEADLINE = "deadline";
 
     private static TaskStore tasks;
+    private static Storage storage;
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
@@ -40,14 +41,20 @@ public class Duke {
     }
 
     private static void init() {
-        tasks = new TaskStore();
+        storage = new Storage();
+        storage.makeDirectory();
+        try {
+            tasks = storage.importTasks();
+        } catch (IOException e) {
+            System.out.println("Unable to load file.");
+        }
     }
 
     public static void processInput(String inputTxt) {
         String[] split = inputTxt.split(" ");
         String command = split[0].toLowerCase();
         String commandArgs = inputTxt.substring(command.length()).trim();
-        int toMark;
+//        int toMark;
         Task task;
         try {
             switch (command) {
@@ -90,12 +97,20 @@ public class Duke {
                 default:
                     throw new DukeException("☹ OOPS!!! I'm sorry, but I don't know what that means :-(");
             }
+
+//            Write the new changes to file (commands that are not bye and list)
+            if (!(command.equals(BYE) || command.equals(LIST))){
+                storage.writeToFile(tasks);
+            }
+
         } catch (DukeException e) {
             printMessage(e.getMessage());
         } catch (NumberFormatException e) {
             printMessage("☹ OOPS!!! I don't think you gave me a valid number.");
         } catch (IndexOutOfBoundsException e) {
             printMessage("☹ OOPS!!! I think you may have given me something that's out of range.");
+        } catch (IOException e) {
+            printMessage("☹ ERROR!!! Unable to write to file");
         }
     }
 

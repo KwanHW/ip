@@ -25,6 +25,11 @@ public class Task {
         this.isDone = false;
     }
 
+    public String writeToFile() {
+        String isDone = this.isDone ? "1" : "0";
+        return String.join(" | ", this.taskType.toString(), isDone, this.description);
+    }
+
     @Override
     public String toString() {
         return String.format("[%s][%s] %s",this.taskType.toString() ,this.getStatusIcon(),this.description);
