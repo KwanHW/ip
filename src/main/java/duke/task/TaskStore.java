@@ -14,7 +14,7 @@ public class TaskStore {
         this.tasks = new ArrayList<>(100);
     }
 
-    public boolean isEmpty() {
+    public boolean getIsEmpty() {
         return this.tasks.isEmpty();
     }
 
@@ -64,7 +64,7 @@ public class TaskStore {
         if (tasksToPrint.isEmpty()) {
             return String.format("You don't have any tasks on %s",dateString);
         } else {
-            return String.format("Here are your tasks on%s\n%s",dateString,tasksToPrint);
+            return String.format("Here are your tasks on %s\n%s",dateString,tasksToPrint);
         }
     }
 

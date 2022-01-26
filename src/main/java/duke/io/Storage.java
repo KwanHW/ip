@@ -66,7 +66,8 @@ public class Storage {
 
             return tasks;
 
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+            this.makeDirectory();
             this.file.createNewFile();
             return tasks;
         }

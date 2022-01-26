@@ -96,7 +96,7 @@ public class Parser {
     }
 
     public static Task validateMutation(String command,String commandArgs,TaskStore tasks) throws DukeException, NumberFormatException, IndexOutOfBoundsException{
-        if (tasks.isEmpty()) {
+        if (tasks.getIsEmpty()) {
             throw new DukeException("Please make sure you have something in the list before performing this operation!");
         }
 

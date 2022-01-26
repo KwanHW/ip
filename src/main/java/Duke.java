@@ -19,7 +19,7 @@ public class Duke {
     private Duke() {
         this.ui = new Ui();
         this.storage = new Storage();
-        this.storage.makeDirectory();
+//        this.storage.makeDirectory();
         try {
             this.tasks = storage.importTasks();
         } catch (IOException e) {
