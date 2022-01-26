@@ -68,6 +68,24 @@ public class TaskStore {
         }
     }
 
+    public String getTaskWithKeyword(String keyword) {
+        StringBuilder sb = new StringBuilder();
+        int count = 1;
+        for (Task t : this.tasks) {
+            if (t.description.contains(keyword)) {
+//              Task Format: <count>.<task>\n
+                sb.append(String.format("%d.",count++)).append(t).append("\n") ;
+            }
+        }
+
+        String tasksToPrint = sb.toString();
+        if (tasksToPrint.isEmpty()) {
+            return "There are no matching tasks in your list";
+        } else {
+           return String.format("Here are the matching tasks in your list:\n%s",tasksToPrint);
+        }
+    }
+
     public Task createTask(String command, String args) throws DukeException, DateTimeParseException {
         if (command.equals(Parser.MAKE_TODO)) {
             if (args.equals("")) {
@@ -94,6 +112,7 @@ public class TaskStore {
             }
         }
     }
+
 
     @Override
     public String toString() {

@@ -19,6 +19,7 @@ public class Parser {
     public static final String MAKE_EVENT = "event";
     public static final String MAKE_DEADLINE = "deadline";
     public static final String TASKS_ON = "taskon";
+    public static final String FIND="find";
 
     private Ui ui;
     private Storage storage;
@@ -73,12 +74,19 @@ public class Parser {
                     this.ui.printMessage(tasks.getTasksOn(date));
                     break;
 
+                case FIND:
+                    if (commandArgs.equals("")) {
+                        throw new DukeException("Please enter a keyword for me to find.");
+                    }
+                    this.ui.printMessage(tasks.getTaskWithKeyword(commandArgs));
+                    break;
+
                 default:
                     throw new DukeException("I'm sorry, but I don't know what that means :-(");
             }
 
 //            Write the new changes to file (commands that are not bye, list and taskon)
-            if (!(command.equals(BYE) || command.equals(LIST) || command.equals(TASKS_ON))){
+            if (!(command.equals(BYE) || command.equals(LIST) || command.equals(TASKS_ON) || command.equals(FIND))){
                 this.storage.writeToFile(tasks);
             }
 
