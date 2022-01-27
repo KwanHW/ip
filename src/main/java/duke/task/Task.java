@@ -38,6 +38,14 @@ public class Task {
         this.isDone = false;
     }
 
+    /**
+     * Generates a string which represents the task for disk storage. The format is as follows:
+     * <br>
+     * TaskType | isDone | Task Description
+     * <br>
+     * Note that isDone will be "1" if its is marked as done and "0" otherwise.
+     * @return String representation of the task for disk storage.
+     */
     public String writeToFile() {
         String isDone = this.isDone ? "1" : "0";
         return String.join(" | ", this.taskType.toString(), isDone, this.description);
