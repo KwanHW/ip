@@ -3,6 +3,9 @@ package duke.ui;
 import duke.task.Task;
 import duke.task.TaskStore;
 
+/**
+ * Represents an interface which will display messages to the user based on the inputs.
+ */
 public class Ui {
     public static final String TASK_MARKED="Nice! I marked this task as done:\n %s";
     public static final String TASK_UNMARKED="OK, I've marked this task as not done yet:\n %s";

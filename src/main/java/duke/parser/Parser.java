@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Represents the logic which would make sense of the user's commands.
+ */
 public class Parser {
     public static final String BYE = "bye";
     public static final String LIST = "list";

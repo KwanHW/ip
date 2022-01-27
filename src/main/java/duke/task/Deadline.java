@@ -3,6 +3,9 @@ package duke.task;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Represents a task that has to be completed before a certain date.
+ */
 public class Deadline extends Task implements Timeable{
     protected LocalDate by;
 
@@ -15,6 +18,14 @@ public class Deadline extends Task implements Timeable{
         this.by = by;
     }
 
+    /**
+     * Generates a writable format of the deadline. The format is as such:
+     * <br>
+     * D | 1 | Description of task | Deadline of task (in yyyy-mm-dd)
+     * <br>
+     * Note that the second column represents (isDone) and is denoted as 1 for done and 0 for not done.
+     * @return The writable format of the task.
+     */
     @Override
     public String writeToFile() {
         return super.writeToFile() + " | " + this.getDateString(Timeable.getWritableFormat());

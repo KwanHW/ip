@@ -1,5 +1,8 @@
 package duke.task;
 
+/**
+ * Represents a fixed set of types a task can take on.
+ */
 public enum TaskType {
     TODO("T"),
     EVENT("E"),

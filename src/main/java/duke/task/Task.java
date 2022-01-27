@@ -1,9 +1,12 @@
 package duke.task;
 
+/**
+ * Represents a general task which the user has inserted.
+ */
 public class Task {
-    protected String description;
-    protected boolean isDone;
-    protected TaskType taskType;
+    private String description;
+    private boolean isDone;
+    private TaskType taskType;
 
     public Task(TaskType type, String description) {
         this(type,false,description);
@@ -17,6 +20,10 @@ public class Task {
 
     public boolean getIsDone() {
         return this.isDone;
+    }
+
+    public String getDescription() {
+        return this.description;
     }
 
     public String getStatusIcon() {
