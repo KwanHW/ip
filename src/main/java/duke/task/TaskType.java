@@ -15,7 +15,7 @@ public enum TaskType {
     }
 
     public static TaskType fromString(String from) {
-        for (TaskType tt : TaskType.values())      {
+        for (TaskType tt : TaskType.values()) {
             if (tt.toString().equals(from)) {
                 return tt;
             }

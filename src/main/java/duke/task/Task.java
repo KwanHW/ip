@@ -9,7 +9,7 @@ public class Task {
     private TaskType taskType;
 
     public Task(TaskType type, String description) {
-        this(type,false,description);
+        this(type, false, description);
     }
 
     public Task(TaskType type, boolean isDone, String description) {
@@ -44,6 +44,7 @@ public class Task {
      * TaskType | isDone | Task Description
      * <br>
      * Note that isDone will be "1" if its is marked as done and "0" otherwise.
+     *
      * @return String representation of the task for disk storage.
      */
     public String writeToFile() {
@@ -53,6 +54,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("[%s][%s] %s",this.taskType.toString() ,this.getStatusIcon(),this.description);
+        return String.format("[%s][%s] %s", this.taskType.toString(), this.getStatusIcon(), this.description);
     }
 }

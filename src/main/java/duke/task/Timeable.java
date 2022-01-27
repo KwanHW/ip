@@ -19,5 +19,9 @@ public interface Timeable {
         return DateTimeFormatter.ofPattern("MMM dd yyyy");
     }
 
-    public static DateTimeFormatter getWritableFormat() {return DateTimeFormatter.ofPattern("yyyy-MM-dd"); };
+    public static DateTimeFormatter getWritableFormat() {
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    }
+
+    ;
 }

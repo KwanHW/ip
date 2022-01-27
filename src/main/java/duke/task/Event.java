@@ -6,15 +6,15 @@ import java.time.format.DateTimeFormatter;
 /**
  * Represents an event that is happening on a certain date.
  */
-public class Event extends Task implements Timeable{
+public class Event extends Task implements Timeable {
     protected LocalDate at;
 
     public Event(String description, LocalDate at) {
-        this(description,false, at);
+        this(description, false, at);
     }
 
-    public Event(String description,boolean isDone, LocalDate at ) {
-        super(TaskType.EVENT,isDone,description);
+    public Event(String description, boolean isDone, LocalDate at) {
+        super(TaskType.EVENT, isDone, description);
         this.at = at;
     }
 
@@ -24,6 +24,7 @@ public class Event extends Task implements Timeable{
      * E | 1 | Description of task | Deadline of task (in yyyy-mm-dd)
      * <br>
      * Note that the second column represents (isDone) and is denoted as 1 for done and 0 for not done.
+     *
      * @return The writable format of the task.
      */
     @Override
@@ -48,7 +49,7 @@ public class Event extends Task implements Timeable{
 
     @Override
     public String toString() {
-        return String.format("%s (at: %s)",super.toString(),this.getDateString(Timeable.getPrintableFormat()));
+        return String.format("%s (at: %s)", super.toString(), this.getDateString(Timeable.getPrintableFormat()));
     }
 
 }

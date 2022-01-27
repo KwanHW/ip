@@ -35,14 +35,17 @@ public class TaskStore {
 
     /**
      * Adds a new task to the <code>TaskStore</code>. Once complete, it will return the task that has been added.
+     *
      * @param command Type of task to create.
-     * @param args The entire sting of parameters to create the task (e.g. task description or time of task).
+     * @param args    The entire sting of parameters to create the task (e.g. task description or time of task).
      * @return The created <code>Task</code>.
-     * @throws DukeException If there is an error creating the task due to syntax error (i.e. missing parameters).
-     * @throws DateTimeParseException If the time parameter given cannot be parsed (Applies to <code>Timeable</code> tasks).
+     * @throws DukeException          If there is an error creating the task due to syntax error (i.e. missing
+     *                                parameters).
+     * @throws DateTimeParseException If the time parameter given cannot be parsed (Applies to <code>Timeable</code>
+     *                                tasks).
      */
-    public Task addTask(String command, String args) throws DukeException, DateTimeParseException{
-        Task t = this.createTask(command,args);
+    public Task addTask(String command, String args) throws DukeException, DateTimeParseException {
+        Task t = this.createTask(command, args);
         this.tasks.add(t);
         return t;
     }
@@ -51,13 +54,14 @@ public class TaskStore {
         this.tasks.add(t);
     }
 
-    public void removeTask(Task t)  {
+    public void removeTask(Task t) {
         this.tasks.remove(t);
     }
 
     /**
-     * Finds all tasks in the <code>TaskStore</code> that falls on the given date.
-     * If there are no tasks that fall on that date, a message saying that there are no tasks will be sent instead.
+     * Finds all tasks in the <code>TaskStore</code> that falls on the given date. If there are no tasks that fall on
+     * that date, a message saying that there are no tasks will be sent instead.
+     *
      * @param date The selected date to search.
      * @return A complete message of the tasks or a message saying that there are no tasks that fall on the given date
      */
@@ -79,15 +83,16 @@ public class TaskStore {
         String dateString = date.format(Timeable.getPrintableFormat());
 
         if (tasksToPrint.isEmpty()) {
-            return String.format("You don't have any tasks on %s",dateString);
+            return String.format("You don't have any tasks on %s", dateString);
         } else {
-            return String.format("Here are your tasks on %s\n%s",dateString,tasksToPrint);
+            return String.format("Here are your tasks on %s\n%s", dateString, tasksToPrint);
         }
     }
 
     /**
      * Search the <code>TaskStore</code> and generates the task information if the keyword is in the description.
      * Returns a message if there are no matching tasks in the list.
+     *
      * @param keyword Keyword to search in all task descriptions.
      * @return A message containing all the task information that matches the keyword.
      */
@@ -97,7 +102,7 @@ public class TaskStore {
         for (Task t : this.tasks) {
             if (t.getDescription().contains(keyword)) {
 //              Task Format: <count>.<task>\n
-                sb.append(String.format("%d.",count++)).append(t).append("\n") ;
+                sb.append(String.format("%d.", count++)).append(t).append("\n");
             }
         }
 
@@ -105,17 +110,20 @@ public class TaskStore {
         if (tasksToPrint.isEmpty()) {
             return "There are no matching tasks in your list";
         } else {
-           return String.format("Here are the matching tasks in your list:\n%s",tasksToPrint);
+            return String.format("Here are the matching tasks in your list:\n%s", tasksToPrint);
         }
     }
 
     /**
      * Creates a <code>Task</code> with a given command and its arguments.
+     *
      * @param command The type of task to create.
-     * @param args The respective arguments required to create the task.
+     * @param args    The respective arguments required to create the task.
      * @return The created <code>Task</code> specified by the arguments.
-     * @throws DukeException If there is an error creating the task due to syntax error (i.e. missing parameters).
-     * @throws DateTimeParseException If the supplied date in args cannot be parsed as a <code>LocalDate</code> instance.
+     * @throws DukeException          If there is an error creating the task due to syntax error (i.e. missing
+     *                                parameters).
+     * @throws DateTimeParseException If the supplied date in args cannot be parsed as a <code>LocalDate</code>
+     *                                instance.
      */
     public Task createTask(String command, String args) throws DukeException, DateTimeParseException {
         if (command.equals(Parser.MAKE_TODO)) {
@@ -129,7 +137,7 @@ public class TaskStore {
 
 //            Checks for syntax correctness
             if (taskParams.length == 1) {
-                String errorMsg = String.format("Make sure your command follows this format: %s <task>%s<time>",command,delimiter);
+                String errorMsg = String.format("Make sure your command follows this format: %s <task>%s<time>", command, delimiter);
                 throw new DukeException(errorMsg);
             }
 

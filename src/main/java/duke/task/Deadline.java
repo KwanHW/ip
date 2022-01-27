@@ -6,15 +6,15 @@ import java.time.format.DateTimeFormatter;
 /**
  * Represents a task that has to be completed before a certain date.
  */
-public class Deadline extends Task implements Timeable{
+public class Deadline extends Task implements Timeable {
     protected LocalDate by;
 
     public Deadline(String description, LocalDate by) {
-        this(description,false,by);
+        this(description, false, by);
     }
 
     public Deadline(String description, boolean isDone, LocalDate by) {
-        super(TaskType.DEADLINE,isDone, description);
+        super(TaskType.DEADLINE, isDone, description);
         this.by = by;
     }
 
@@ -24,6 +24,7 @@ public class Deadline extends Task implements Timeable{
      * D | 1 | Description of task | Deadline of task (in yyyy-mm-dd)
      * <br>
      * Note that the second column represents (isDone) and is denoted as 1 for done and 0 for not done.
+     *
      * @return The writable format of the task.
      */
     @Override
@@ -48,6 +49,6 @@ public class Deadline extends Task implements Timeable{
 
     @Override
     public String toString() {
-        return String.format("%s (by: %s)",super.toString(),this.getDateString(Timeable.getPrintableFormat()));
+        return String.format("%s (by: %s)", super.toString(), this.getDateString(Timeable.getPrintableFormat()));
     }
 }

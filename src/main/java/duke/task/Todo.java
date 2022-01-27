@@ -2,10 +2,10 @@ package duke.task;
 
 public class Todo extends Task {
     public Todo(String description) {
-        this(description,false);
+        this(description, false);
     }
 
     public Todo(String description, boolean isDone) {
-        super(TaskType.TODO,isDone,description);
+        super(TaskType.TODO, isDone, description);
     }
 }

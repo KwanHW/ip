@@ -8,9 +8,9 @@ import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class Duke {
-    private  TaskStore tasks;
-    private  Storage storage;
-    private  Ui ui;
+    private TaskStore tasks;
+    private Storage storage;
+    private Ui ui;
 
     public static void main(String[] args) {
         new Duke().run();
@@ -30,14 +30,14 @@ public class Duke {
     }
 
     public void run() {
-        Parser parser = new Parser(ui,storage);
+        Parser parser = new Parser(ui, storage);
         Scanner input = new Scanner(System.in);
 
         ui.greet();
         String inputTxt;
         while (input.hasNext()) {
             inputTxt = input.nextLine();
-            parser.processInput(inputTxt,tasks);
+            parser.processInput(inputTxt, tasks);
 
             if (inputTxt.startsWith("bye")) {
                 break;
