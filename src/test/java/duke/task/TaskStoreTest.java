@@ -18,10 +18,11 @@ public class TaskStoreTest {
     @Test
     public void noTasksOnDate() {
         TaskStore ts = new TaskStore();
-        LocalDate date = LocalDate.parse("2022-01-31");
+        LocalDate date1 = LocalDate.parse("2022-01-31");
+        LocalDate date2 = LocalDate.parse("2022-01-30");
         try {
-            ts.addTask(new Deadline("Complete Assignment", date));
-            ts.addTask(new Event("Project Meeting", date));
+            ts.addTask(new Deadline("Complete Assignment", date1));
+            ts.addTask(new Event("Project Meeting", date2));
             assertEquals("You don't have any tasks on Jan 29 2022", ts.getTasksOn(LocalDate.parse("2022-01-29")),
                     "Failed: TaskStore contains tasks that do not fall on that date");
         } catch (DukeException e) {
@@ -46,14 +47,14 @@ public class TaskStoreTest {
     @Test
     public void tasksOnDate() {
         TaskStore ts = new TaskStore();
-        LocalDate date = LocalDate.parse("2022-01-29");
+        LocalDate date1 = LocalDate.parse("2022-01-31");
+        LocalDate date2 = LocalDate.parse("2022-01-30");
         try {
-            ts.addTask(new Deadline("Complete Assignment", date));
-            ts.addTask(new Event("Project Meeting", date));
-            String expected = "Here are your tasks on Jan 29 2022\n" + ts.getTask(0).toString() + "\n"
-                    + ts.getTask(1).toString() + "\n";
-            assertEquals(expected, ts.getTasksOn(date),
-                    "Failed: TaskStore should output the 2 tasks that fall on that day.");
+            ts.addTask(new Deadline("Complete Assignment", date1));
+            ts.addTask(new Event("Project Meeting", date2));
+            String expected = "Here are your tasks on Jan 31 2022\n" + ts.getTask(0).toString() + "\n";
+            assertEquals(expected, ts.getTasksOn(date1),
+                    "Failed: TaskStore should output the 1 task that fall on that day.");
         } catch (DukeException e) {
             fail("There are matching dates in the file. Could be a seed file error");
         }

@@ -2,10 +2,13 @@ package duke.io;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import duke.parser.DukeException;
@@ -14,6 +17,14 @@ import duke.task.TaskStore;
 import duke.task.Todo;
 
 public class StorageTest {
+
+    @BeforeAll
+    public static void deleteFilesAndDirectory() {
+        File f = new File(Storage.PATH);
+        f.delete();
+        f.getParentFile().delete();
+    }
+
     @Test
     public void importTasksNoDirNoFile() throws IOException, DateTimeParseException {
         try {
