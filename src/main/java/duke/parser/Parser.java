@@ -13,6 +13,8 @@ import duke.ui.Ui;
  * Represents the logic which would make sense of the user's commands.
  */
 public class Parser {
+    public static final String EMPTY_LIST_ERROR =
+            "Please make sure you have something in the list before performing this operation!";
     public static final String BYE = "bye";
     public static final String LIST = "list";
     public static final String MARK = "mark";
@@ -148,7 +150,7 @@ public class Parser {
         }
 
         if (tasks.getIsEmpty()) {
-            throw new DukeException("Please make sure you have something in the list before performing this operation!");
+            throw new DukeException(EMPTY_LIST_ERROR);
         }
 
         if (commandArgs.isEmpty()) {
