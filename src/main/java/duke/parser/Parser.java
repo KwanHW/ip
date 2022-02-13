@@ -108,17 +108,15 @@ public class Parser {
             return true;
         } catch (DukeException e) {
             ui.printError(e.getMessage());
-            return false;
         } catch (NumberFormatException e) {
             ui.printError("I don't think you gave me a valid number.");
-            return false;
         } catch (IndexOutOfBoundsException e) {
             ui.printError("I think you may have given me something that's out of range.");
-            return false;
         } catch (DateTimeParseException e) {
             ui.printError("Sorry I don't understand that format. Make sure its in yyyy-mm-dd.");
-            return false;
         }
+
+        return false;
     }
 
     /**
