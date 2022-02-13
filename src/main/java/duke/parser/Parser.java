@@ -60,7 +60,6 @@ public class Parser {
             case MARK:
                 //Fallthrough
             case UNMARK:
-                // validateCommand(command, commandArgs, tasks);
                 boolean isMarkCommand = command.equals(MARK);
 
                 if (commandArgs.matches("all")) {
@@ -75,7 +74,6 @@ public class Parser {
                 break;
 
             case DELETE:
-                // validateCommand(command, commandArgs, tasks);
                 if (commandArgs.matches("all")) {
                     tasks.removeAllTasks();
                     ui.printMessage("Deleted all tasks.");
@@ -156,9 +154,6 @@ public class Parser {
         if (commandArgs.isEmpty()) {
             throw new DukeException(String.format("The command %s should have arguments", command));
         }
-
-        // int toMark = Integer.parseInt(commandArgs) - 1;
-        // return tasks.getTask(toMark);
     }
 
     /**
