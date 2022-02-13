@@ -193,8 +193,10 @@ public class TaskStore {
     }
 
     /**
-     * Search the <code>TaskStore</code> and generates the task information if the keyword is in the description.
-     * Returns a message if there are no matching tasks in the list.
+     * Searches the <code>TaskStore</code> for tasks that contains the keyword.
+     * <br>
+     * Returns a formatted message containing information of the tasks if there is at least 1 match. Else return
+     * a message if there are no matching tasks in the list.
      *
      * @param keyword Keyword to search in all task descriptions.
      * @return A message containing all the task information that matches the keyword.

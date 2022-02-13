@@ -98,9 +98,6 @@ public class Parser {
                 break;
 
             case FIND:
-                if (commandArgs.isEmpty()) {
-                    throw new DukeException("Please enter a keyword for me to find.");
-                }
                 ui.printMessage(tasks.getTaskWithKeyword(commandArgs));
                 break;
 
