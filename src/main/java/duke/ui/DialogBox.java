@@ -50,11 +50,17 @@ public class DialogBox extends HBox {
     }
 
     public static DialogBox getUserDialog(String text, Image img) {
-        return new DialogBox(text, img);
+        DialogBox db = new DialogBox(text, img);
+        return db;
+    }
+
+    private void leftAlignText() {
+        dialog.setAlignment(Pos.CENTER_LEFT);
     }
 
     public static DialogBox getDukeDialog(String text, Image img) {
         DialogBox db = new DialogBox(text, img);
+        db.leftAlignText();
         db.flip();
         return db;
     }
